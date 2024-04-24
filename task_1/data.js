@@ -189,7 +189,7 @@ export const encoded = [
     mpmId: null,
   },
   {
-    groupId: 792,
+    groupId: 793,
 
     areaId: "0",
     departmentId: "688",

@@ -1,8 +1,5 @@
-import {encoded, translations} from './data.js'
+import {decoded} from './decoded.js';
+import {uniqueId} from './unique-id.js';
 
-console.log("Let's rock")
-console.log(encoded, translations)
-
-
-
-// console.log(decoded)
+console.log(decoded);
+console.log(uniqueId);

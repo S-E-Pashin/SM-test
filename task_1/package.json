@@ -2,12 +2,12 @@
   "name": "task_1",
   "type": "module",
   "version": "1.0.0",
-  "description": "",
+  "description": "test 1",
   "main": "index.js",
   "scripts": {
     "dev": "node index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "S.E.Pashin",
   "license": "ISC"
 }
