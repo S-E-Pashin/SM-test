@@ -1,47 +1,79 @@
 <script lang="ts">
-  import svelteLogo from './assets/svelte.svg'
-  import viteLogo from '/vite.svg'
-  import Counter from './lib/Counter.svelte'
+  import {currencyValue} from './currency-value/currency-value';
+  import AreaCurrencies from './components/area-currencies/AreaCurrencies.svelte';
+
+  let valueArea = {
+    active: '',
+    area1: {
+      input: '',
+      currency: 'EUR',
+    },
+    area2: {
+      input: '',
+      currency: 'EUR',
+    },
+  }
+
+  function buyCurrencies1(quantity, currencyArea1, currencyArea2) {
+    const value1unit = currencyValue[currencyArea1][currencyArea2];
+    return (
+      quantity * value1unit
+    )
+  }
+
+  function buyCurrencies2(quantity, currencyArea1, currencyArea2) {
+    const value1unit = currencyValue[currencyArea2][currencyArea1];
+    return (
+      quantity * value1unit
+    )
+  }
+
+  function getNewValue() {
+    if (valueArea.active === 'area1') {
+      valueArea.area2.input = buyCurrencies1(valueArea.area1.input, valueArea.area1.currency, valueArea.area2.currency);
+    } else if (valueArea.active === 'area2') {
+      valueArea.area1.input = buyCurrencies2(valueArea.area2.input, valueArea.area1.currency, valueArea.area2.currency);
+    }
+
+  }
+  $:valueArea && getNewValue();
 </script>
 
 <main>
-  <div>
-    <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-      <img src={viteLogo} class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer">
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
+  <p><b>Выберите валюты для конвертации</b></p>
+
+  <div class="main-wrapper">
+    <AreaCurrencies bindingZone="area1" bind:valueArea/>
+    <AreaCurrencies bindingZone="area2" bind:valueArea/>
   </div>
-  <h1>Vite + Svelte</h1>
-
-  <div class="card">
-    <Counter />
-  </div>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
-
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
 </main>
+<p>Курсы валют обновляются один раз в сутки</p>
+<a class="link-api" href="https://www.exchangerate-api.com">API обменного курса</a>
 
 <style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
+  main {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    min-width: 480px;
   }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
+
+  .main-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    min-width: 360px;
   }
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
-  }
-  .read-the-docs {
-    color: #888;
+
+  @media (max-width: 580px) {
+    .main-wrapper {
+      flex-direction: column;
+    }
   }
 </style>
